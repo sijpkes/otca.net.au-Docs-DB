@@ -54,9 +54,9 @@ CREATE TABLE IF NOT EXISTS `exp_upload_prefs` (
 --
 
 INSERT INTO `exp_upload_prefs` (`id`, `site_id`, `name`, `server_path`, `url`, `allowed_types`, `max_size`, `max_height`, `max_width`, `properties`, `pre_format`, `post_format`, `file_properties`, `file_pre_format`, `file_post_format`, `cat_group`, `batch_location`) VALUES
-(1, 1, 'user_evidence', '/home4/otaltcne/public_html/user_evidence/', 'http://otaltc.net/user_evidence/', 'all', '104857600', '768', '1024', '', '', '', '', '', '', '4', NULL),
-(2, 1, 'Podcasts', '/home4/otaltcne/public_html/audio/', 'http://otaltc.net/audio/', 'all', '100000000000000', '', '', '', '', '', '', '', '', '5', NULL),
-(3, 1, 'Resource Documents', '/home4/otaltcne/public_html/__jck9resources/', 'http://otaltc.net/__jck9resources/', 'all', '104857600', '', '', '', '', '', '', '', '', '7', NULL);
+(1, 1, 'user_evidence', '/change/this/to/your/server/user_evidence', 'http://yourserver/user_evidence/', 'all', '104857600', '768', '1024', '', '', '', '', '', '', '4', NULL),
+(2, 1, 'Podcasts', '/change/this/to/your/server/audio/', 'http://yourserver/audio/', 'all', '100000000000000', '', '', '', '', '', '', '', '', '5', NULL),
+(3, 1, 'Resource Documents', '/change/this/to/your/server/public_html/resources/', 'http://yourserver/resources/', 'all', '104857600', '', '', '', '', '', '', '', '', '7', NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
