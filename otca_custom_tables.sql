@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 01, 2013 at 08:58 PM
--- Server version: 5.5.34
+-- Generation Time: Jan 13, 2014 at 09:03 PM
+-- Server version: 5.5.35
 -- PHP Version: 5.2.17
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -37,8 +37,9 @@ CREATE TABLE IF NOT EXISTS `otca_diary` (
   `tag` varchar(255) NOT NULL DEFAULT 'general_diary_entry' COMMENT 'meta tag for gui purposes',
   `hidden` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`entry_id`),
-  UNIQUE KEY `member_id` (`member_id`,`current_practice_cycle`,`tag`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3256 ;
+  UNIQUE KEY `member_id` (`member_id`,`current_practice_cycle`,`tag`),
+  KEY `tag` (`tag`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3359 ;
 
 -- --------------------------------------------------------
 
@@ -52,6 +53,21 @@ CREATE TABLE IF NOT EXISTS `otca_educators` (
   `institution_id` int(11) NOT NULL,
   UNIQUE KEY `member_id` (`member_id`),
   KEY `institution_id` (`institution_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `otca_educator_feedback_save`
+--
+
+DROP TABLE IF EXISTS `otca_educator_feedback_save`;
+CREATE TABLE IF NOT EXISTS `otca_educator_feedback_save` (
+  `entry_id` int(11) NOT NULL,
+  `educator_member_id` int(11) NOT NULL,
+  `feedback` text NOT NULL,
+  `criteria` longtext NOT NULL,
+  UNIQUE KEY `entry_id` (`entry_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -94,8 +110,7 @@ CREATE TABLE IF NOT EXISTS `otca_evidence_validated` (
   `matrix_ids` text CHARACTER SET utf8 NOT NULL COMMENT 'supervisor''s assessment of this evidence in JSON format',
   `feedback` text CHARACTER SET utf8 NOT NULL,
   `date_assessed` bigint(14) NOT NULL COMMENT 'Date this item was assessed',
-  KEY `evidence_id` (`evidence_id`),
-  KEY `date_assessed` (`date_assessed`)
+  UNIQUE KEY `evidence_id` (`evidence_id`,`assessor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -123,10 +138,30 @@ CREATE TABLE IF NOT EXISTS `otca_folio_highlights` (
 DROP TABLE IF EXISTS `otca_institutions`;
 CREATE TABLE IF NOT EXISTS `otca_institutions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL COMMENT 'must match exp_member_field name for institution',
   `type` tinyint(4) NOT NULL DEFAULT '2' COMMENT '1 = University, 2 = Other',
-  PRIMARY KEY (`id`)
+  `expiry_date` int(10) NOT NULL,
+  `student_uri_hash` varchar(255) NOT NULL,
+  `educator_uri_hash` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `student_uri_hash` (`student_uri_hash`),
+  KEY `educator_uri_hash` (`educator_uri_hash`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `otca_member_fields`
+--
+
+DROP TABLE IF EXISTS `otca_member_fields`;
+CREATE TABLE IF NOT EXISTS `otca_member_fields` (
+  `member_id` int(11) NOT NULL,
+  `institution_id` int(11) NOT NULL,
+  UNIQUE KEY `member_id` (`member_id`),
+  KEY `institution_id` (`institution_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -238,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `otca_user_status_history` (
   `title` varchar(255) NOT NULL DEFAULT 'New Cycle',
   `time` bigint(14) NOT NULL COMMENT 'time first saved',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=505 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=548 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
